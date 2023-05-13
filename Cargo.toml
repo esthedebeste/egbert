@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+arrayvec = "0.7.2"
 console_error_panic_hook = "0.1.7"
 getrandom = { version = "0.2.8", features = ["js"] }
 rand = "0.8.5"
-smallvec = "1.10.0"
 sycamore = "0.9.0-beta.1"
 web-sys = { version = "0.3.61", features = ["HtmlCanvasElement", "CanvasRenderingContext2d", "console"] }

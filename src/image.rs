@@ -1,7 +1,7 @@
+use arrayvec::ArrayVec;
 use rand::{rngs::StdRng, Rng};
 
 use crate::wfc::{Collapse, WaveFunctionCollapse};
-use smallvec::smallvec;
 
 #[derive(PartialEq, Clone, Copy)]
 pub struct Rgb {
@@ -156,7 +156,7 @@ pub fn generate(
         height,
         rng,
         |x: usize, y: usize, picked: usize| {
-            let mut collapse = smallvec![];
+            let mut collapse = ArrayVec::new();
             for rule in &rules {
                 if picked == rule.cols.0 {
                     collapse.push(Collapse {

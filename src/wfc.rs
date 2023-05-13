@@ -1,7 +1,7 @@
-// largely a rewrite of https://github.com/esthedebeste/WaveFunctionCollapse/blob/main/src/wfc.cpp
+// a more optimized rewrite of https://github.com/esthedebeste/WaveFunctionCollapse/blob/main/src/wfc.cpp
 
+use arrayvec::ArrayVec;
 use rand::{rngs::StdRng, Rng};
-use smallvec::SmallVec;
 
 #[derive(Clone, Copy)]
 pub struct Cell {
@@ -45,6 +45,7 @@ impl Cell {
     }
 }
 
+#[derive(Default)]
 pub struct Collapse {
     pub x: usize,
     pub y: usize,
@@ -54,8 +55,8 @@ pub struct Collapse {
 pub struct WaveFunctionCollapse<
     'a,
     const OPTION_COUNT: usize,
-    const COMMON_COLLAPSE_SIZE: usize,
-    Collapser: Fn(usize, usize, usize) -> SmallVec<[Collapse; COMMON_COLLAPSE_SIZE]>,
+    const MAX_COLLAPSE_SIZE: usize,
+    Collapser: Fn(usize, usize, usize) -> ArrayVec<Collapse, MAX_COLLAPSE_SIZE>,
 > {
     pub width: usize,
     pub height: usize,
@@ -67,9 +68,9 @@ pub struct WaveFunctionCollapse<
 impl<
         'a,
         const OPTION_COUNT: usize,
-        const COMMON_COLLAPSE_SIZE: usize,
-        C: Fn(usize, usize, usize) -> SmallVec<[Collapse; COMMON_COLLAPSE_SIZE]>,
-    > WaveFunctionCollapse<'a, OPTION_COUNT, COMMON_COLLAPSE_SIZE, C>
+        const MAX_COLLAPSE_SIZE: usize,
+        C: Fn(usize, usize, usize) -> ArrayVec<Collapse, MAX_COLLAPSE_SIZE>,
+    > WaveFunctionCollapse<'a, OPTION_COUNT, MAX_COLLAPSE_SIZE, C>
 {
     pub fn new(width: usize, height: usize, rng: &'a mut StdRng, collapser: C) -> Self {
         if OPTION_COUNT > 32 {
