@@ -46,6 +46,15 @@ button {
     color: #fff;
 }
 
+button:hover {
+    background: #d81e8b;
+}
+
+button:active {
+    background: #c2185b;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) inset;
+}
+
 h2, p, ul {
     margin: 0;
     padding: 0;
