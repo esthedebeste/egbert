@@ -1,61 +1,77 @@
 html {
-    background: linear-gradient(23deg, #74265d, #550119);
-    color: #fff;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+	background: linear-gradient(23deg, #74265d, #550119);
+	color: #fff;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+	font-family: "Roboto", sans-serif;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 canvas {
-    // nearest-neighbor scaling
-    image-rendering: pixelated;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAaUlEQVQYV32QURZAEQhEx75amCVYkP2hGPJODz/KbaZKVaTBnYJsUUYZ97wTwRjAgGeRgQpp8FLeIO0iWHPbmoBvwecu8A8yRZHaOCH7ZAEVr2H8SvxgLFrW8ytS1k3qn1l/Jz69co9AB/9jQDEeu+uPAAAAAElFTkSuQmCC");    
-    background-size: 100% 100%;
+	// nearest-neighbor scaling
+	image-rendering: pixelated;
+	background: linear-gradient(10deg, #7552ff, #88017d);
+	background-size: 100% 100%;
 
-    border: 1px solid #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    margin: 10px;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+	margin: 10px;
 
-    height: 50vmin;
-    width: 50vmin;
+	height: 50vmin;
+	width: 50vmin;
 }
 
 button {
-    width: 45vmin;
-    margin: 1em;
-    padding: .25em;
-    font-size: 1.5em;
-    font-weight: bold;
-    background: #ea2ca4;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    color: #fff;
+	width: 45vmin;
+	margin: 1em;
+	margin-bottom: 0.2em;
+	padding: 0.25em;
+	font-size: 1.5em;
+	font-weight: bold;
+	background: #ea2ca4;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+	color: #fff;
 }
 
 button:hover {
-    background: #d81e8b;
+	background: #d81e8b;
 }
 
 button:active {
-    background: #c2185b;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) inset;
+	background: #c2185b;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.5) inset;
 }
 
-h2, p, ul {
-    margin: 0;
-    padding: 0;
+button:disabled {
+	cursor: wait;
+}
+
+h2,
+p,
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+#generating[aria-hidden="false"] {
+	cursor: wait;
+}
+
+#generating[aria-hidden="true"] {
+	color: transparent;
+	user-select: none;
 }
