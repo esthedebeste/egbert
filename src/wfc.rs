@@ -1,6 +1,7 @@
 // largely a rewrite of https://github.com/esthedebeste/WaveFunctionCollapse/blob/main/src/wfc.cpp
 
 use rand::{rngs::StdRng, Rng};
+use smallvec::SmallVec;
 
 #[derive(Clone, Copy)]
 pub struct Cell {
@@ -50,30 +51,34 @@ pub struct Collapse {
     pub opt: usize,
 }
 
-pub struct WaveFunctionCollapse<'a, Collapser: Fn(usize, usize, usize) -> Vec<Collapse>> {
+pub struct WaveFunctionCollapse<
+    'a,
+    const OPTION_COUNT: usize,
+    const COMMON_COLLAPSE_SIZE: usize,
+    Collapser: Fn(usize, usize, usize) -> SmallVec<[Collapse; COMMON_COLLAPSE_SIZE]>,
+> {
     pub width: usize,
     pub height: usize,
-    pub opt_count: usize,
     pub cells: Vec<Cell>,
     pub rng: &'a mut StdRng,
     pub collapser: Collapser,
 }
-impl<'a, C: Fn(usize, usize, usize) -> Vec<Collapse>> WaveFunctionCollapse<'a, C> {
-    pub fn new(
-        width: usize,
-        height: usize,
-        opt_count: usize,
-        rng: &'a mut StdRng,
-        collapser: C,
-    ) -> Self {
-        if opt_count > 32 {
+
+impl<
+        'a,
+        const OPTION_COUNT: usize,
+        const COMMON_COLLAPSE_SIZE: usize,
+        C: Fn(usize, usize, usize) -> SmallVec<[Collapse; COMMON_COLLAPSE_SIZE]>,
+    > WaveFunctionCollapse<'a, OPTION_COUNT, COMMON_COLLAPSE_SIZE, C>
+{
+    pub fn new(width: usize, height: usize, rng: &'a mut StdRng, collapser: C) -> Self {
+        if OPTION_COUNT > 32 {
             panic!("Too many options! (max 32)");
         }
         WaveFunctionCollapse {
             width,
             height,
-            opt_count,
-            cells: vec![Cell::new_all_active(opt_count); width * height],
+            cells: vec![Cell::new_all_active(OPTION_COUNT); width * height],
             rng,
             collapser,
         }
@@ -81,7 +86,7 @@ impl<'a, C: Fn(usize, usize, usize) -> Vec<Collapse>> WaveFunctionCollapse<'a, C
     pub fn init(&mut self) {
         for y in 0..self.height {
             for x in 0..self.width {
-                self.cells[y * self.width + x] = Cell::new_all_active(self.opt_count);
+                self.cells[y * self.width + x] = Cell::new_all_active(OPTION_COUNT);
             }
         }
     }
@@ -120,7 +125,7 @@ impl<'a, C: Fn(usize, usize, usize) -> Vec<Collapse>> WaveFunctionCollapse<'a, C
     }
     pub fn step(&mut self) {
         let mut lowest_cell: Option<usize> = None;
-        let mut min_opt = self.opt_count + 1;
+        let mut min_opt = OPTION_COUNT + 1;
         for (i, cell) in &mut self.cells.iter().enumerate() {
             let opts = cell.active_options() as usize;
             if opts <= 1 {

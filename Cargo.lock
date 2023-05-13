@@ -48,6 +48,7 @@ dependencies = [
  "console_error_panic_hook",
  "getrandom",
  "rand",
+ "smallvec",
  "sycamore",
  "web-sys",
 ]
